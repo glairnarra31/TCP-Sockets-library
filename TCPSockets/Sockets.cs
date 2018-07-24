@@ -11,7 +11,7 @@ namespace TCPSockets
     {
         private readonly TcpListener tcpListener;
 
-        private List<ClientNode> clients = new List<ClientNode>();
+        private readonly List<ClientNode> clients = new List<ClientNode>();
 
         private bool listenerFlag = false;
 
