@@ -39,7 +39,7 @@ namespace TCPSockets
             }
             else
             {
-                throw new Exception("Unable to parse IP Address and/or Port");
+                throw new FormatException("Unable to parse IP Address and/or Port");
             }
         }
 
@@ -66,7 +66,7 @@ namespace TCPSockets
             listenerFlag = false;
             foreach (var client in clients)
             {
-                lock(clients)
+                lock (clients)
                 {
                     OnClientDisconnected(client);
                     client.tcpClient.Dispose();
@@ -110,7 +110,7 @@ namespace TCPSockets
 
                 if (toReadBytes == 0)
                 {
-                    lock(clients)
+                    lock (clients)
                     {
                         OnClientDisconnected(clientNode);
                         clientNode.tcpClient.Dispose();
@@ -119,7 +119,7 @@ namespace TCPSockets
                 }
                 else
                 {
-                    OnDataReceived(clientNode,Encoding.ASCII.GetString(clientNode.RX, 0, toReadBytes).Trim());
+                    OnDataReceived(clientNode, Encoding.ASCII.GetString(clientNode.RX, 0, toReadBytes).Trim());
                     clientNode.tcpClient.GetStream().BeginRead(clientNode.RX, 0, clientNode.RX.Length, ReceiveData, clientNode.tcpClient);
                 }
             }
@@ -131,51 +131,37 @@ namespace TCPSockets
 
         public void RemoveClient(ClientNode clientNode)
         {
-            try
+            ClientNode client = clients.Find(x => x == clientNode);
+            if (clientNode != null)
             {
-                ClientNode client = clients.Find(x => x == clientNode);
-                if (clientNode != null)
+                lock (clients)
                 {
-                    lock(clients)
-                    {
-                        OnClientDisconnected(clientNode);
-                        clientNode.tcpClient.Dispose();
-                        clients.Remove(clientNode);
-                    }
-                }
-                else
-                {
-                    throw new Exception($"Client {clientNode.tcpClient.Client.RemoteEndPoint} not found.");
+                    OnClientDisconnected(clientNode);
+                    clientNode.tcpClient.Dispose();
+                    clients.Remove(clientNode);
                 }
             }
-            catch (Exception e)
+            else
             {
-                throw new Exception(e.ToString());
+                throw new KeyNotFoundException($"Client {clientNode.tcpClient.Client.RemoteEndPoint} not found.");
             }
         }
 
         public void RemoveClient(string endpoint)
         {
-            try
+            ClientNode clientNode = clients.Find(x => x.tcpClient.Client.RemoteEndPoint.ToString() == endpoint);
+            if (clientNode != null)
             {
-                ClientNode clientNode = clients.Find(x => x.tcpClient.Client.RemoteEndPoint.ToString() == endpoint);
-                if (clientNode != null)
+                lock (clients)
                 {
-                    lock(clients)
-                    {
-                        OnClientDisconnected(clientNode);
-                        clientNode.tcpClient.Dispose();
-                        clients.Remove(clientNode);
-                    }
-                }
-                else
-                {
-                    throw new Exception($"Client {endpoint} not found.");
+                    OnClientDisconnected(clientNode);
+                    clientNode.tcpClient.Dispose();
+                    clients.Remove(clientNode);
                 }
             }
-            catch (Exception e)
+            else
             {
-                throw new Exception(e.ToString());
+                throw new KeyNotFoundException($"Client {endpoint} not found.");
             }
         }
 
@@ -197,25 +183,18 @@ namespace TCPSockets
 
         public void WriteData(string message, string endpoint)
         {
-            try
+            ClientNode clientNode = clients.Find(x => x.tcpClient.Client.RemoteEndPoint.ToString() == endpoint);
+            if (clientNode != null)
             {
-                ClientNode clientNode = clients.Find(x => x.tcpClient.Client.RemoteEndPoint.ToString() == endpoint);
-                if (clientNode != null)
+                if (clientNode.tcpClient.Connected)
                 {
-                    if (clientNode.tcpClient.Connected)
-                    {
-                        clientNode.TX = Encoding.ASCII.GetBytes(message);
-                        clientNode.tcpClient.GetStream().BeginWrite(clientNode.TX, 0, clientNode.TX.Length, OnCompleteWrite, clientNode.tcpClient);
-                    }
-                }
-                else
-                {
-                    throw new Exception($"Client {endpoint} not found.");
+                    clientNode.TX = Encoding.ASCII.GetBytes(message);
+                    clientNode.tcpClient.GetStream().BeginWrite(clientNode.TX, 0, clientNode.TX.Length, OnCompleteWrite, clientNode.tcpClient);
                 }
             }
-            catch (Exception e)
+            else
             {
-                throw new Exception(e.ToString());
+                throw new KeyNotFoundException($"Client {endpoint} not found.");
             }
         }
 
