@@ -11,7 +11,7 @@ namespace TCPSockets
     {
         private readonly TcpListener tcpListener;
 
-        private readonly List<ClientNode> clients = new List<ClientNode>();
+        private List<ClientNode> clients = new List<ClientNode>();
 
         private bool listenerFlag = false;
 
@@ -68,9 +68,9 @@ namespace TCPSockets
             {
                 lock(clients)
                 {
+                    OnClientDisconnected(client);
                     client.tcpClient.Dispose();
                 }
-                OnClientDisconnected(client);
             }
             tcpListener.Stop();
             OnServerListenStopped();
@@ -112,10 +112,10 @@ namespace TCPSockets
                 {
                     lock(clients)
                     {
+                        OnClientDisconnected(clientNode);
                         clientNode.tcpClient.Dispose();
                         clients.Remove(clientNode);
                     }
-                    OnClientDisconnected(clientNode);
                 }
                 else
                 {
@@ -138,10 +138,10 @@ namespace TCPSockets
                 {
                     lock(clients)
                     {
+                        OnClientDisconnected(clientNode);
                         clientNode.tcpClient.Dispose();
                         clients.Remove(clientNode);
                     }
-                    OnClientDisconnected(clientNode);
                 }
                 else
                 {
@@ -163,10 +163,10 @@ namespace TCPSockets
                 {
                     lock(clients)
                     {
+                        OnClientDisconnected(clientNode);
                         clientNode.tcpClient.Dispose();
                         clients.Remove(clientNode);
                     }
-                    OnClientDisconnected(clientNode);
                 }
                 else
                 {
