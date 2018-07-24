@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TCPSockets", "TCPSockets\TCPSockets.csproj", "{371BC1B1-D2A3-4ADB-AD71-6EA70501F33A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TCPSockets", "TCPSockets\TCPSockets.csproj", "{371BC1B1-D2A3-4ADB-AD71-6EA70501F33A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server Example", "Server Example\Server Example.csproj", "{DD6E2A58-0447-49D8-A2B3-147FF9D4FA8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{371BC1B1-D2A3-4ADB-AD71-6EA70501F33A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{371BC1B1-D2A3-4ADB-AD71-6EA70501F33A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{371BC1B1-D2A3-4ADB-AD71-6EA70501F33A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD6E2A58-0447-49D8-A2B3-147FF9D4FA8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD6E2A58-0447-49D8-A2B3-147FF9D4FA8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD6E2A58-0447-49D8-A2B3-147FF9D4FA8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD6E2A58-0447-49D8-A2B3-147FF9D4FA8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
