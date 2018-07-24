@@ -11,6 +11,7 @@ namespace Server_Example
     {
         private static void Main(string[] args)
         {
+
             //instantiate socket
             Sockets sockets = new Sockets("192.168.1.208","23000");
 
