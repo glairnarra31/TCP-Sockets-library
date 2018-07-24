@@ -64,6 +64,15 @@ namespace Server_Example
                         sockets.WriteData(message, endpoint);
                         break;
 
+                    case "remove client":
+                        //remove a particular client
+                        Console.Write("Enter client remote endpoint: ");
+                        endpoint = Console.ReadLine();
+
+                        //remove a client based on endpoint
+                        sockets.RemoveClient(endpoint);
+                        break;
+
                     case "broadcast":
                         //broadcast to all connected clients
                         sockets.BroadcastMessage(Console.ReadLine());
